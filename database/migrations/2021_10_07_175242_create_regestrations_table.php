@@ -13,17 +13,18 @@ class CreateRegestrationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('regestrations', function (Blueprint $table) {
+        Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->bigInteger('phone')->unique()->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('address')->nullable();
-            $table->string('past_collage_name')->nullable();
-            $table->float('cgpa')->default(0.00)->nullable();
-            $table->string('department')->nullable();
-            $table->text('desc')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('subject')->nullable();
+            $table->string('description')->nullable();
+            $table->string('summary')->nullable();
+            $table->date('date')->nullable();
+            $table->tinyInteger('status')->default(2);
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
