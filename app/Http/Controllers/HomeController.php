@@ -14,6 +14,7 @@ class HomeController extends Controller
     }
 
     public function login(Request $request){
+        
         if( Auth::user()== Auth::user()){
 
             return redirect()->route('home');
