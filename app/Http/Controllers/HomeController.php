@@ -9,20 +9,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-
         return view('contents.dashboard.index');
     }
 
-    public function login(Request $request){
-        
-        if( Auth::user()== Auth::user()){
-
-            return redirect()->route('home');
-        }else{
-            return redirect()->route('login');
-        }
-    }
-    
     public function register (Request $request)
     {
         $this->validate(request(), [

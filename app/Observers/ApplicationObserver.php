@@ -3,21 +3,15 @@
 namespace App\Observers;
 
 use App\Models\Application;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 class ApplicationObserver
 {
-    /**
-     * Handle the Application "created" event.
-     *
-     * @param  \App\Models\Application  $application
-     * @return void
-     */
+   public function creating (Application $application) {
+    $application->status  = 2;
+   }
     public function created(Application $application)
     {
-        $application->user_id = Auth::user()->user->id;
-        $application->comment = Str::slug($application->summary);
-        $application->status  = 2;
+
     }
 
     /**

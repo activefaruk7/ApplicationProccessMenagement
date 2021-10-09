@@ -24,7 +24,7 @@ class UserApplicationController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -37,7 +37,7 @@ class UserApplicationController extends Controller
     {
         
        Application::create($request->all());
-       dd($request->all());
+
        return redirect()->route('userapplication.index');
     }
 

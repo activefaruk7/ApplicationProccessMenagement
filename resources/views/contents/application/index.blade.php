@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-10 col-xl-6 col-lg-6 col-md-8 col-sm-10 mx-auto">
-                
+
             </div>
         </div>
     </div> -->
@@ -23,12 +23,11 @@
                 <div class="card-body">
                     <form method="POST" action="{{route('userapplication.store')}}">
                         @csrf
-
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
                             <div class="col-md-6">
                                 <input  type="text" class="form-control" name="name" value="" required autocomplete="name" autofocus>
-                                
+                                <input type="hidden" name="user_id" value="{{auth()->id()}}"/>
                             </div>
                         </div>
 
@@ -44,7 +43,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="phone" value="" required autocomplete="phone" autofocus>
-                              
+
                             </div>
                         </div>
 
@@ -52,21 +51,27 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Subject') }}</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="subject" value="" required autocomplete="subject" autofocus>
-                                
+
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
                             <div class="col-md-6">
-                            <textarea name="description" id="" cols="36" rows="3"></textarea>
+                            <textarea class="form-control" name="description" id="" cols="36" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="comment" class="col-md-4 col-form-label text-md-right">{{ __('Comment') }}</label>
+                            <div class="col-md-6">
+                            <textarea name="comment" class="form-control" id="comment" cols="36" rows="3"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Summary') }}</label>
                             <div class="col-md-6">
-                               <textarea name="summary" id="" cols="36" rows="3"></textarea>
+                               <textarea class="form-control" name="summary" id="" cols="36" rows="3"></textarea>
                             </div>
                         </div>
 
