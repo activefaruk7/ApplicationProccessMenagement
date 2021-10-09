@@ -1,93 +1,124 @@
 @extends('layouts.app')
-
 @section('content')
-    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Aplication Form</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Applications</h1>
+        <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50" ></i> Add Applications</a>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-10 col-xl-6 col-lg-6 col-md-8 col-sm-10 mx-auto">
+    {{-- table sectio here.... --}}
 
-            </div>
-        </div>
-    </div> -->
-    <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Apply') }}</div>
+    <div class="card shadow mb-4">
 
-                <div class="card-body">
-                    <form method="POST" action="{{route('userapplication.store')}}">
-                        @csrf
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-                            <div class="col-md-6">
-                                <input  type="text" class="form-control" name="name" value="" required autocomplete="name" autofocus>
-                                <input type="hidden" name="user_id" value="{{auth()->id()}}"/>
-                            </div>
-                        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Subject</th>
+                            <th>Description</th>
+                            <th>Comment</th>
+                            <th>Summary</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                    <tbody>
+                        @foreach($applications as $key=>$application)
+                            <tr>
 
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="" required autocomplete="email">
-                            </div>
-                        </div>
+                                <td>{{ $key + 1}}</td>
+                                <td >{{$application->name}}</td>
+                                <td >{{$application->email}}</td>
+                                <td >{{$application->phone}}</td>
+                                <td >{{$application->subject}}</td>
+                                <td >{{$application->description}}</td>
+                                <td >{{$application->comment}}</td>
+                                <td >{{$application->date}}</td>
+                                <td >{{$application->status}}</td>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="phone" value="" required autocomplete="phone" autofocus>
+                                <!-- <td>
+                                    <a type="button"
+                                        href="{{ route('incame.edit', $incame->id) }}"
+                                        style="color: #1D8348;"
+                                        >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a type="button" style="color:#922B21;" onclick="deleteIncame({{ $incame->id }})">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                    <form id="delete-form-{{ $incame->id }}" action="{{route('incame.destroy',$incame->id)}}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td> -->
 
-                            </div>
-                        </div>
+                            </tr>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Subject') }}</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="subject" value="" required autocomplete="subject" autofocus>
 
-                            </div>
-                        </div>
+                            @endforeach
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
-                            <div class="col-md-6">
-                            <textarea class="form-control" name="description" id="" cols="36" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="comment" class="col-md-4 col-form-label text-md-right">{{ __('Comment') }}</label>
-                            <div class="col-md-6">
-                            <textarea name="comment" class="form-control" id="comment" cols="36" rows="3"></textarea>
-                            </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Summary') }}</label>
-                            <div class="col-md-6">
-                               <textarea class="form-control" name="summary" id="" cols="36" rows="3"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Date') }}</label>
-                            <div class="col-md-6">
-                               <input type="date" class="form-control"  name="date">
-                            </div>
-                        </div>
-
-                        <input type="submit" class="form-control btn btn-primary wave-effects" value="SAVE">
-
-                    </form>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    {!! $application->links() !!}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+@push('js')
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="text/javascript">
+   function deleteIncame(id){
+
+        const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You want to delete this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+        }).then((result) => {
+        if (result.isConfirmed) {
+        event.preventDefault();
+        document.getElementById('delete-form-'+id).submit();
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+        ) {
+        swalWithBootstrapButtons.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+        )
+        }
+        })
+
+}
+</script>
+
+@endpush
+
+

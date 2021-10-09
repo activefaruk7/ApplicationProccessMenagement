@@ -14,7 +14,10 @@ class UserApplicationController extends Controller
      */
     public function index()
     {
-        return view('contents.application.index');
+      
+       $applications =Application::paginate(3);
+      
+        return view('contents.application.index',compact('applications'));
     }
 
     /**
@@ -24,7 +27,7 @@ class UserApplicationController extends Controller
      */
     public function create()
     {
-
+       // return view('contents.application.create');
     }
 
     /**
