@@ -5,7 +5,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Applications</h1>
-        <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+        <a href="{{route('userapplication.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50" ></i> Add Applications</a>
     </div>
 
@@ -43,24 +43,25 @@
                                 <td >{{$application->subject}}</td>
                                 <td >{{$application->description}}</td>
                                 <td >{{$application->comment}}</td>
+                                <td >{{$application->summary}}</td>
                                 <td >{{$application->date}}</td>
                                 <td >{{$application->status}}</td>
 
-                                <!-- <td>
+                                <td>
                                     <a type="button"
-                                        href="{{ route('incame.edit', $incame->id) }}"
+                                        href="{{ route('userapplication.edit', $application->id) }}"
                                         style="color: #1D8348;"
                                         >
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a type="button" style="color:#922B21;" onclick="deleteIncame({{ $incame->id }})">
+                                    <button type="button" style="color:#922B21;" onclick="deleteApplication({{ $application->id }})">
                                         <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                    <form id="delete-form-{{ $incame->id }}" action="{{route('incame.destroy',$incame->id)}}" method="POST" style="display: none;">
+                                    </button>
+                                    <form id="delete-form-{{ $application->id }}" action="{{route('userapplication.destroy',$application->id)}}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
-                                </td> -->
+                                </td>
 
                             </tr>
 
@@ -71,7 +72,7 @@
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
-                    {!! $application->links() !!}
+                    {!! $applications->links() !!}
                 </div>
             </div>
         </div>
@@ -82,7 +83,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
-   function deleteIncame(id){
+   function deleteApplication(id){
 
         const swalWithBootstrapButtons = Swal.mixin({
         customClass: {

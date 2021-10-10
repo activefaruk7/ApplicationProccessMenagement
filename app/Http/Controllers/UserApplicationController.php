@@ -27,7 +27,7 @@ class UserApplicationController extends Controller
      */
     public function create()
     {
-       // return view('contents.application.create');
+        return view('contents.application.create');
     }
 
     /**
@@ -63,7 +63,8 @@ class UserApplicationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $application = Application::find($id);
+        return view('contents.application.create',compact('application'));
     }
 
     /**
@@ -75,7 +76,10 @@ class UserApplicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       // dd($request->all());
+        
+       Application::find($id)->update($request->all());
+       return redirect()->route('userapplication.index');
     }
 
     /**
@@ -86,6 +90,7 @@ class UserApplicationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Application::find($id)->delete();
+        return redirect()->back();
     }
 }

@@ -9,6 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     @include('static.css')
+    @stack('css')
 
 </head>
 <body id="page-top">
@@ -80,5 +81,6 @@
 
 
     @include('static.js')
+    @stack('js')
 </body>
 </html>

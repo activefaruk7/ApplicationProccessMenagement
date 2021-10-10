@@ -6,9 +6,9 @@ use App\Models\Application;
 use Illuminate\Support\Str;
 class ApplicationObserver
 {
-   public function creating (Application $application) {
-    $application->status  = 2;
-   }
+//    public function creating (Application $application) {
+//     $application->status  = 2;
+//    }
     public function created(Application $application)
     {
 
