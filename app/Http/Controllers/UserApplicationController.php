@@ -2,90 +2,100 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Application;
+use App\Models\StudentApplication;
+use App\Models\User;
 use Illuminate\Http\Request;
+use File;
 
 class UserApplicationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-      
-       $applications =Application::paginate(3);
-      
-        return view('contents.application.index',compact('applications'));
+
+       $applications = StudentApplication::where('user_id', auth()->id())->with('teacher')->get();
+
+        return view('contents.application.index',
+                   ['applications' => $applications]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
-    {
-       // return view('contents.application.create');
+    {  $teachers = User::where('role', 'teacher')->get();
+       return view('contents.application.create')->with('teachers', $teachers);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        
-       Application::create($request->all());
+        $request->validate([
+            'file' => 'mimes:pdf,xlx,csv|max:2048',
+        ]);
+        $app = StudentApplication::create($request->all());
 
-       return redirect()->route('userapplication.index');
+        if ($request->hasFile('file')) {
+            $name = time().'_'.$request->file->getClientOriginalName();
+            $filePath = $request->file('file')->storeAs('uploads', $name, 'public');
+
+
+            $app->file = '/storage/' . $filePath;
+
+            $app->update();
+        }
+
+       return redirect()
+              ->route('userapplication.index')
+              ->with('success', 'Application Updated Successfully');          ;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        //
+
+        return view('contents.application-check.show',
+               ['application' => StudentApplication::where('id', $id)->first()]
+        );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
-        //
+        return view('contents.application.create',
+               ['application' => StudentApplication::where('id', $id)->first(),
+                'teachers' => User::where('role', 'teacher')->get()
+               ]
+    );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'file' => 'mimes:pdf,doc,docx,xlx,csv|max:2048',
+        ]);
+
+        $app = StudentApplication::find($id);
+        $app->update($request->all());
+
+        if ($request->hasFile('file')) {
+            if (File::exists($app->file)) {
+                File::delete($app->file);
+            }
+            $name = time().'_'.$request->file->getClientOriginalName();
+            $filePath = $request->file('file')->storeAs('uploads', $name, 'public');
+            $app->file = '/storage/' . $filePath;
+
+            $app->update();
+        }
+
+       return redirect()
+              ->route('userapplication.index')
+              ->with('success', 'Application Saved Successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        StudentApplication::find($id)->delete();
+        return redirect()
+               ->back()
+               ->with('success','Successfully Deleted!');
     }
 }

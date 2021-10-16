@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Application extends Model
-{
+class StudentApplication extends Model
+{ use HasFactory;
     protected $fillable=[
         'user_id',
         'name',
@@ -17,13 +17,17 @@ class Application extends Model
         'description',
         'summary',
         'date',
+        'teacher_id',
         'status',
         'comment',
     ];
-    use HasFactory;
+
 
     public function user(){
-        return $this->BelongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
-    
+    public function teacher(){
+        return $this->belongsTo(User::class, 'teacher_id', 'id');
+    }
+
 }

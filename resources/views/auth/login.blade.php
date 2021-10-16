@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Login</title>
-
-    @include('static.css')
-
-</head>
-<body>
+@extends('layouts.auth')
+@section('title', 'Login')
+@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -77,6 +63,10 @@
                                     </a>
                                 @endif
                             </div>
+
+                            <div class="col-md-8 offset-4 mt-3 text-center">
+                                <a class="text-center" href="{{route('register.index')}}">Create An Account</a>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -84,8 +74,7 @@
         </div>
     </div>
 </div>
-@include('static.js')
-</body>
-</html>
+@endsection
+
 
 

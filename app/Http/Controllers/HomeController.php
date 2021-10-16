@@ -1,15 +1,48 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\StudentApplication;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('contents.dashboard.index');
+        if (Gate::allows('is-teacher', auth()->user())){
+            $totalApps = StudentApplication::where('teacher_id', auth()->id())->count('id');
+            $totalStudent = User::where('role', 'student')->count('id');
+            $totalRejected = StudentApplication::where('teacher_id', auth()->id())
+                                                ->where('status', 0)->count('id');
+            $totalAccepted = StudentApplication::where('teacher_id', auth()->id())
+                                                 ->where('status', 1)->count('id');
+            return view('contents.dashboard.teacher',
+                ['totalApps' => $totalApps, 'totalStudent' => $totalStudent,
+                 'totalRejected' => $totalRejected, 'totalAccepted' => $totalAccepted
+                ]
+            );
+        }else {
+            $totalApps = StudentApplication::where('user_id', auth()->id())
+                                             ->count('id');
+            $totalRejected = StudentApplication::where('user_id', auth()->id())
+                                             ->where('status', 0)->count('id');
+            $totalAccepted = StudentApplication::where('user_id', auth()->id())
+                                              ->where('status', 1)->count('id');
+            return view('contents.dashboard.student',
+                ['totalApps' => $totalApps,
+                 'totalRejected' => $totalRejected, 'totalAccepted' => $totalAccepted
+                    ]
+        );
+
+        }
+
+    }
+
+    public function registerIndex () {
+        return view('auth.register');
     }
 
     public function register (Request $request)
@@ -22,10 +55,11 @@ class HomeController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email'=> $request->email,
-            'password'=> $request->password
+            'password'=> bcrypt($request->password),
+            'role' => $request->role
         ]);
 
-       // auth()->login($user);
+       auth()->login($user);
         return redirect('/');
     }
 

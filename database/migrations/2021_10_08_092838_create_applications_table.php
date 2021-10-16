@@ -13,16 +13,18 @@ class CreateApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('applications', function (Blueprint $table) {
+        Schema::create('student_applications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('subject')->nullable();
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('summary')->nullable();
+            $table->string('file')->nullable();
             $table->date('date')->nullable();
+            $table->unsignedBigInteger('teacher_id')->nullable();
             $table->tinyInteger('status')->default(2);
             $table->text('comment')->nullable();
             $table->timestamps();

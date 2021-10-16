@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-fluid">
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -14,8 +15,8 @@
     @endif
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">My Applications</h1>
-        <a href="{{route('userapplication.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Add Applications</a>
+        <h1 class="h3 mb-0 text-gray-800">Applications</h1>
+        
     </div>
 
     {{-- table sectio here.... --}}
@@ -27,18 +28,10 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Teacher</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Subject</th>
-                            <th>Description</th>
-                            <th>Comment</th>
-                            <th>Summary</th>
-                            <th>Date</th>
+
+                            <th>Applicant Name</th>
+                            <th>Applicant Email</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -47,44 +40,40 @@
                         @foreach ($applications as $key=>$application)
                         <tr>
 
-                            <td>{{ $key + 1}}</td>
                             <td >{{$application->name}}</td>
-                            <td >{{$application->teacher ? $application->teacher->name : '' }}</td>
                             <td >{{$application->email}}</td>
-                            <td >{{$application->phone}}</td>
-                            <td >{{$application->subject}}</td>
-                            <td >{{$application->description}}</td>
-                            <td >{{$application->comment}}</td>
-                            <td >{{$application->summary}}</td>
-                            <td >{{$application->date}}</td>
+
                             <td >
                                 @if ($application->status == 2)
-                                    <p>Pending</p>
+                                    <a  href="{{ route('update.status.accept', $application->id) }}">Accept</a>
+                                    <a class="mx-2" href="{{ route('update.status.reject', $application->id) }}">Reject</a>
+                                    <a href="{{ route('userapplication.show', $application->id) }}">Show</a>
                                 @else
+                                    @if ($application->status == 0)
+                                        <p class="bg-denger">Rejected</p>
+                                        <a href="{{ route('userapplication.show', $application->id) }}">Again Review</a>
+                                    @endif
                                     @if ($application->status == 1)
-                                        <p>Accepted</p>
-                                    @else
-                                        @if ($application->status == 0)
-                                            <p>Rejected</p>
-                                        @else
-                                            <a href="{{ route('update.status.panding', $application->id) }}">Send</a>
-                                            <a href="{{ route('userapplication.edit', $application->id) }}">Edit</a>
-                                        @endif
+                                        <p >Accepted</p>
                                     @endif
                                 @endif
                             </td>
 
-                            <td>
-                                @if ($application->status == 3)
-                                <a type="button" style="color:#922B21;" onclick="deleteIncame({{ $application->id }})">
+                            {{-- <!-- <td>
+                                <a type="button"
+                                    href="{{ route('incame.edit', $incame->id) }}"
+                                    style="color: #1D8348;"
+                                    >
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a type="button" style="color:#922B21;" onclick="deleteIncame({{ $incame->id }})">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
-                                <form id="delete-form-{{ $application->id }}" action="{{route('userapplication.destroy',$application->id)}}" method="POST" style="display: none;">
+                                <form id="delete-form-{{ $incame->id }}" action="{{route('incame.destroy',$incame->id)}}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                @endif
-                            </td>
+                            </td> --> --}}
 
                         </tr>
 
