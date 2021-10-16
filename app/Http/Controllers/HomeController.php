@@ -31,8 +31,10 @@ class HomeController extends Controller
                                              ->where('status', 0)->count('id');
             $totalAccepted = StudentApplication::where('user_id', auth()->id())
                                               ->where('status', 1)->count('id');
+            $totalPanding = StudentApplication::where('user_id', auth()->id())
+                                              ->where('status', 2)->count('id');
             return view('contents.dashboard.student',
-                ['totalApps' => $totalApps,
+                ['totalApps' => $totalApps, 'totalPanding' => $totalPanding,
                  'totalRejected' => $totalRejected, 'totalAccepted' => $totalAccepted
                     ]
         );

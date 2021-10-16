@@ -59,21 +59,15 @@ class UserApplicationController extends Controller
 
     public function edit($id)
     {
-<<<<<<< HEAD
         return view('contents.application.create',
                ['application' => StudentApplication::where('id', $id)->first(),
                 'teachers' => User::where('role', 'teacher')->get()
                ]
     );
-=======
-        $application = Application::find($id);
-        return view('contents.application.create',compact('application'));
->>>>>>> d23b9843d2f59943b89f89157f18e0e5e41a37c9
     }
 
     public function update(Request $request, $id)
     {
-<<<<<<< HEAD
         $request->validate([
             'file' => 'mimes:pdf,doc,docx,xlx,csv|max:2048',
         ]);
@@ -95,24 +89,13 @@ class UserApplicationController extends Controller
        return redirect()
               ->route('userapplication.index')
               ->with('success', 'Application Saved Successfully');
-=======
-       // dd($request->all());
-
-       Application::find($id)->update($request->all());
-       return redirect()->route('userapplication.index');
->>>>>>> d23b9843d2f59943b89f89157f18e0e5e41a37c9
     }
 
     public function destroy($id)
     {
-<<<<<<< HEAD
         StudentApplication::find($id)->delete();
         return redirect()
                ->back()
                ->with('success','Successfully Deleted!');
-=======
-        Application::find($id)->delete();
-        return redirect()->back();
->>>>>>> d23b9843d2f59943b89f89157f18e0e5e41a37c9
     }
 }

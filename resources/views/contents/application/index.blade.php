@@ -14,14 +14,8 @@
     @endif
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-<<<<<<< HEAD
         <h1 class="h3 mb-0 text-gray-800">My Applications</h1>
         <a href="{{route('userapplication.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Add Applications</a>
-=======
-        <h1 class="h3 mb-0 text-gray-800">Applications</h1>
-        <a href="{{route('userapplication.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50" ></i> Add Applications</a>
->>>>>>> d23b9843d2f59943b89f89157f18e0e5e41a37c9
     </div>
 
     {{-- table sectio here.... --}}
@@ -49,7 +43,6 @@
                     </thead>
 
                     <tbody>
-<<<<<<< HEAD
                         @if (!empty($applications))
                         @foreach ($applications as $key=>$application)
                         <tr>
@@ -94,42 +87,6 @@
                             </td>
 
                         </tr>
-=======
-                        @foreach($applications as $key=>$application)
-                            <tr>
-
-                                <td>{{ $key + 1}}</td>
-                                <td >{{$application->name}}</td>
-                                <td >{{$application->email}}</td>
-                                <td >{{$application->phone}}</td>
-                                <td >{{$application->subject}}</td>
-                                <td >{{$application->description}}</td>
-                                <td >{{$application->comment}}</td>
-                                <td >{{$application->summary}}</td>
-                                <td >{{$application->date}}</td>
-                                <td >{{$application->status}}</td>
-
-                                <td>
-                                    <a type="button"
-                                        href="{{ route('userapplication.edit', $application->id) }}"
-                                        style="color: #1D8348;"
-                                        >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button type="button" style="color:#922B21;" onclick="deleteApplication({{ $application->id }})">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                    <form id="delete-form-{{ $application->id }}" action="{{route('userapplication.destroy',$application->id)}}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </td>
-
-                            </tr>
-
-
-                            @endforeach
->>>>>>> d23b9843d2f59943b89f89157f18e0e5e41a37c9
 
                         @endforeach
                         @endif
@@ -137,11 +94,7 @@
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
-<<<<<<< HEAD
                     {{-- {!! $application->links() !!} --}}
-=======
-                    {!! $applications->links() !!}
->>>>>>> d23b9843d2f59943b89f89157f18e0e5e41a37c9
                 </div>
             </div>
         </div>
