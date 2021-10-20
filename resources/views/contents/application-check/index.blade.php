@@ -60,21 +60,6 @@
                                 @endif
                             </td>
 
-                            {{-- <!-- <td>
-                                <a type="button"
-                                    href="{{ route('incame.edit', $incame->id) }}"
-                                    style="color: #1D8348;"
-                                    >
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a type="button" style="color:#922B21;" onclick="deleteIncame({{ $incame->id }})">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                                <form id="delete-form-{{ $incame->id }}" action="{{route('incame.destroy',$incame->id)}}" method="POST" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </td> --> --}}
 
                         </tr>
 

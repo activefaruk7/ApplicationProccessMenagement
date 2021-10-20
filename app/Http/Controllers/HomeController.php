@@ -49,11 +49,12 @@ class HomeController extends Controller
 
     public function register (Request $request)
     {
-        $this->validate(request(), [
+        $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required'
         ]);
+        // dd('hello');
         $user = User::create([
             'name' => $request->name,
             'email'=> $request->email,

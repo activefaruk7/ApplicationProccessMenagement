@@ -53,9 +53,9 @@
                             <td >{{$application->email}}</td>
                             <td >{{$application->phone}}</td>
                             <td >{{$application->subject}}</td>
-                            <td >{{$application->description}}</td>
-                            <td >{{$application->comment}}</td>
-                            <td >{{$application->summary}}</td>
+                            <td >{{Str::limit($application->description, 30)}}</td>
+                            <td >{{Str::limit($application->comment,30)}}</td>
+                            <td >{{Str::limit($application->summary,30)}}</td>
                             <td >{{$application->date}}</td>
                             <td >
                                 @if ($application->status == 2)

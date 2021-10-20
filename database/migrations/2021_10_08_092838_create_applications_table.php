@@ -21,12 +21,12 @@ class CreateApplicationsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('subject')->nullable();
             $table->longText('description')->nullable();
-            $table->string('summary')->nullable();
+            $table->longText('summary')->nullable();
             $table->string('file')->nullable();
             $table->date('date')->nullable();
             $table->unsignedBigInteger('teacher_id')->nullable();
             $table->tinyInteger('status')->default(2);
-            $table->text('comment')->nullable();
+            $table->longText('comment')->nullable();
             $table->timestamps();
         });
     }
