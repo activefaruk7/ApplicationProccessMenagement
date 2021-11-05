@@ -13,10 +13,11 @@
 
     @include('static.css')
 
+
 </head>
 <body>
     @yield('content')
-@include('static.js')
+    {!! ReCaptcha::htmlScriptTagJsApi() !!}
 </body>
 </html>
 

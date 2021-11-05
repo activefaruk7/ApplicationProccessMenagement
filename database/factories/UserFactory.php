@@ -24,7 +24,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'email' => 'teacher2@mail.com',
+            'email' => 'admin@mail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('teacher'),
             'role' => 'teacher',

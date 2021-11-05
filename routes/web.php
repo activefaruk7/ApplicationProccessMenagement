@@ -13,6 +13,8 @@ Auth::routes();
 
 Route::post('/register', [HomeController::class, 'register'])->name('register');
 Route::get('/register', [HomeController::class, 'registerIndex'])->name('register.index');
+Route::get('/code', [HomeController::class, 'codeIndex'])->name('code.index');
+Route::post('/code', [HomeController::class, 'codeToLogin'])->name('code.to.login');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');

@@ -39,6 +39,19 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+
+                                @error('phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Select Role') }}</label>
 
                             <div class="col-md-6">
@@ -76,8 +89,12 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">Are You Robot?</label>
+                            <div class="col-md-6"> {!! htmlFormSnippet() !!} </div>
+                        </div>
 
-                        <div class="form-group row mb-0">
+                        <div class="form-group row mb-0 g-recaptcha">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
@@ -90,5 +107,6 @@
         </div>
     </div>
 </div>
+
 @endsection
 
