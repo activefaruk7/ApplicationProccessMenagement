@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         if (Gate::allows('is-teacher', auth()->user())){
             $totalApps = StudentApplication::where('teacher_id', auth()->id())->count('id');
-            $totalStudent = User::where('role', 'student')->count('id');
+            $totalStudent = User::where('role_id', 1)->count('id');
             $totalRejected = StudentApplication::where('teacher_id', auth()->id())
                                                 ->where('status', 0)->count('id');
             $totalAccepted = StudentApplication::where('teacher_id', auth()->id())

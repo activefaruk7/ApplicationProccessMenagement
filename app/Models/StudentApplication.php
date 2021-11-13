@@ -18,6 +18,7 @@ class StudentApplication extends Model
         'summary',
         'date',
         'teacher_id',
+        'management_ids',
         'status',
         'comment',
     ];

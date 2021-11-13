@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\StudentApplication;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,15 +15,18 @@ class UserApplicationController extends Controller
     {
 
        $applications = StudentApplication::where('user_id', auth()->id())->with('teacher')->get();
-
+        $messages = Message::where('user_id', auth()->id())->latest()->get();
         return view('contents.application.index',
-                   ['applications' => $applications]);
+                   ['applications' => $applications,
+                    'messages' => $messages]);
     }
 
 
     public function create()
-    {  $teachers = User::where('role', 'teacher')->get();
-       return view('contents.application.create')->with('teachers', $teachers);
+    {  $teachers = User::where('role_id', 2)->get();
+       $managements = User::whereNotIn('role_id', [1,2])->get();
+
+       return view('contents.application.create', compact('teachers', 'managements'));
     }
 
     public function store(Request $request)
@@ -30,7 +34,7 @@ class UserApplicationController extends Controller
         $request->validate([
             'file' => 'mimes:pdf,xlx,csv|max:2048',
         ]);
-        $app = StudentApplication::create($request->all());
+        $app = StudentApplication::create(array_merge($request->all() , ['management_ids'=> implode(',', $request->management_id) ]));
 
         if ($request->hasFile('file')) {
             $name = time().'_'.$request->file->getClientOriginalName();
@@ -61,7 +65,7 @@ class UserApplicationController extends Controller
     {
         return view('contents.application.create',
                ['application' => StudentApplication::where('id', $id)->first(),
-                'teachers' => User::where('role', 'teacher')->get()
+                'teachers' => User::where('role_id', 2)->get(),
                ]
     );
     }

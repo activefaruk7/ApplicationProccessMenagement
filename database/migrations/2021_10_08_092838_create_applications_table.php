@@ -25,6 +25,7 @@ class CreateApplicationsTable extends Migration
             $table->string('file')->nullable();
             $table->date('date')->nullable();
             $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->string('management_ids')->nullable();
             $table->tinyInteger('status')->default(2);
             $table->longText('comment')->nullable();
             $table->timestamps();

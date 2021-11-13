@@ -17,7 +17,7 @@
 </head>
 <body>
     @yield('content')
-    {!! ReCaptcha::htmlScriptTagJsApi() !!}
+    @include('static.js')
 </body>
 </html>
 

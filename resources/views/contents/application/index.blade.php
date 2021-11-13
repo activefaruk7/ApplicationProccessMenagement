@@ -75,17 +75,58 @@
                             </td>
 
                             <td>
+
+                                <a href="#" id="setMessageId{{ $application->id }}"  onclick="getMessage({{ $application->id}})" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#incomeAdd{{$application->id}}">Send A Message</a>
                                 @if ($application->status == 3)
                                 <a type="button" style="color:#922B21;" onclick="deleteIncame({{ $application->id }})">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
+                                <a href="{{url("/downloadPDF?id=". $application->id)}}">PDF</a>
                                 <form id="delete-form-{{ $application->id }}" action="{{route('userapplication.destroy',$application->id)}}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
+
                                 @endif
                             </td>
+                                    <div class="modal fade modelTitle" id="incomeAdd{{$application->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Chatt To The Other Persion</h5>
+                                                <button class="close" onclick="removeDivChiledelement({{$application->id}})" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row ">
+                                                    <div class="col-6 border border-dark" id="setMessage{{$application->id}}">
+                                                        <h5>Student</h5>
 
+
+                                                    </div>
+                                                    <div class="col-6 border border-dark" id="setMessageForTeacher{{$application->id}}">
+                                                        <h5>Teacher</h5>
+                                                        <p></p>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="modalTitle{{$application->id}}">Message:</label>
+                                                    <input required type="text" id="textMessage{{$application->id}}" class="form-control " name="text" placeholder='Enter Text...'>
+
+                                                </div>
+                                                <button onclick="sendMessage({{$application->id}})" id="getTeacherId{{$application->id}}" data-id="{{$application->teacher_id}}" class="btn btn-sm btn-primary">Send</button>
+
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" onclick="removeDivChiledelement({{$application->id}})" type="button" data-dismiss="modal">Cancel</button>
+                                                {{-- <button type="submit" class="btn btn-primary" >Save</button> --}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                         </tr>
 
                         @endforeach
@@ -100,11 +141,50 @@
         </div>
     </div>
 </div>
+
+    {{--  model for categories --}}
 @endsection
 @push('js')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script type="text/javascript">
+
+    function removeDivChiledelement (id) {
+        $("#setMessageForTeacher"+id).children('p').remove();
+        $("#setMessage"+id).children('p').remove();
+    }
+    function getMessage (id) {
+        var teacher_id =$("#getTeacherId"+id).data("id");
+        $.ajax({
+            type: "GET",
+            url: "/get-message/"+teacher_id,
+            success: function(data){
+                var teachersMessages = data.filter(item => item.user_id == teacher_id)
+                var studentMessages = data.filter(item => item.user_id == id)
+                teachersMessages.map((item) => $("#setMessageForTeacher"+id).append("<p>"+ item.text +"</p>"))
+                studentMessages.map((item) => $("#setMessage"+id).append("<p>"+ item.text +"</p>"))
+        }
+        })
+    }
+    function sendMessage(id) {
+        var text = $("#textMessage"+id).val();
+        var teacher_id =$("#getTeacherId"+id).data("id");
+        var formData = new FormData();
+        formData.append("text", text);
+        formData.append("teacher_id", teacher_id);
+        $.ajax({
+            type: "POST",
+            url: '/set-message',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                $("#setMessage"+id).append("<p>"+ text +"</p>")
+        }
+        })
+
+    }
+
    function deleteApplication(id){
 
         const swalWithBootstrapButtons = Swal.mixin({

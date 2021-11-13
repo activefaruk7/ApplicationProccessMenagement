@@ -104,6 +104,21 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Select A Management') }}</label>
+                            <div class="col-md-6">
+                                <select class="js-example-basic-multiple form-control"  name="management_id[]" multiple="multiple">
+                                    @foreach ($managements as $item)
+                                        @if (!empty($application) && $application->teacher_id == $item->id)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @else
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endif
+
+                                    @endforeach
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Status') }}</label>
                             <div class="col-md-6">
                                <select name="status" class="form-control"  id="select">
@@ -125,8 +140,11 @@
 @endsection
 
 @push('js')
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-   <script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
         $('select').on('change', function() {
             var selectedValue = parseInt($(this).val());
 
@@ -136,6 +154,10 @@
                 $('#submit').val("Send")
 
             }
+        });
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
         });
    </script>
 @endpush
