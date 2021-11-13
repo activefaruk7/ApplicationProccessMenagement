@@ -34,7 +34,13 @@ class UserApplicationController extends Controller
         $request->validate([
             'file' => 'mimes:pdf,xlx,csv|max:2048',
         ]);
-        $app = StudentApplication::create(array_merge($request->all() , ['management_ids'=> implode(',', $request->management_id) ]));
+        $app = StudentApplication::create($request->all());
+        foreach($request->management_id as $id) {
+            $app->app_role()->create([
+                'user_id' => $id,
+                'sender_id' => auth()->id()
+            ]);
+        }
 
         if ($request->hasFile('file')) {
             $name = time().'_'.$request->file->getClientOriginalName();

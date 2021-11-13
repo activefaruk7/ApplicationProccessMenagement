@@ -30,5 +30,10 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
         });
+        Gate::define('is-management', function ($user) {
+            if ($user->isDin() || $user->isHead() || $user->isOther3() || $user->isOther4() || $user->isOther5()) {
+                return true;
+            }
+        });
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\ExtraController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Profilecontroller;
 use App\Http\Controllers\UserApplicationController;
@@ -23,7 +24,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 
-
+    Route::get('/show-management-index', [ManagementController::class, 'index'])->name('management.index');
+    //management label here...
+    Route::post('/send-to-mangement', [ApplicationCheckController::class, 'sendToMangement'])->name('sendToMang');
     //message section here
     Route::post('/set-message',[MessageController::class, 'sendMessage'])->name('set-message');
     Route::get('/get-message/{teacher_id}',[MessageController::class, 'getMessage'])->name('set-message');

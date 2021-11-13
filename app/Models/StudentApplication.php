@@ -31,4 +31,8 @@ class StudentApplication extends Model
         return $this->belongsTo(User::class, 'teacher_id', 'id');
     }
 
+    public function app_role () {
+        return $this->hasOne(AppRole::class, 'student_application_id', 'id');
+    }
+
 }

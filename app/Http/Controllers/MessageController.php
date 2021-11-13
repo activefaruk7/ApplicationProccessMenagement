@@ -57,4 +57,6 @@ class MessageController extends Controller
         return response()->json(['success' => 'success'], 200);
 
     }
+
+
 }

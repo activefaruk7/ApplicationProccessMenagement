@@ -53,10 +53,30 @@ class User extends Authenticatable
     }
 
     public function isTeacher() {
-        return $this->role->id == 2;
+        return $this->role_id == 2;
     }
     public function isStudent() {
-        return $this->role->id == 1;
+        return $this->role_id == 1;
+    }
+
+    public function isDin() {
+        return $this->role_id == 3;
+    }
+    public function isHead() {
+        return $this->role_id == 4;
+    }
+    public function isOther3() {
+        return $this->role_id == 5;
+    }
+    public function isOther4() {
+        return $this->role_id == 6;
+    }
+    public function isOther5() {
+        return $this->role_id == 7;
+    }
+
+    public function app_role() {
+        return $this->hasOne(AppRole::class, 'user_id', 'id');
     }
 
 

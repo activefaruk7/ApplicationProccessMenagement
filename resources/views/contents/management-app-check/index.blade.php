@@ -32,89 +32,23 @@
 
                             <th>Applicant Name</th>
                             <th>Applicant Email</th>
-                            <th>Status</th>
-                            <th>Message</th>
+                            <th>Action</th>
+
                         </tr>
                     </thead>
 
                     <tbody>
-                        @if (!empty($applications))
-                        @foreach ($applications as $key=>$application)
+                        @if (!empty($apps))
+                        @foreach ($apps as $key=>$application)
                         <tr>
 
-                            <td >{{$application->name}}</td>
-                            <td >{{$application->email}}</td>
+                            <td >{{$application->application->name}}</td>
+                            <td >{{$application->application->email}}</td>
 
                             <td >
-
-                                @if ($application->status == 2)
-                                    <a  href="{{ route('update.status.accept', $application->id) }}">Accept</a>
-                                    <a class="mx-2" href="{{ route('update.status.reject', $application->id) }}">Reject</a>
-                                    <a href="{{ url('/check-application-index?id='.$application->id) }}">Show</a>
-                                @else
-                                    @if ($application->status == 0)
-                                        <p class="bg-denger">Rejected</p>
-                                        <a href="{{ url('/check-application-index?id='.$application->id) }}">Again Review</a>
-                                    @endif
-                                    @if ($application->status == 1)
-                                        <p >Accepted</p>
-                                        <span class="text-success" id="image-input-success{{$application->id}}"></span>
-                                        <div class="d-flex justify-content-between">
-                                        <select id="getManagementId{{$application->id}}" class="form-control" name="management_id">
-                                            @foreach ($managements as $item)
-                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <button class="btn btn-sm btn-primary text-center ml-2" onclick="sendToManagement({{$application->id}})">Send</button>
-                                        </div>
-                                        @endif
-                                @endif
-                            </td>
-                            <td>
-                                <a href="#" id="setMessageId{{ $application->id }}"  onclick="getMessage({{ $application->id}})" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#incomeAdd{{$application->id}}">Send A Message</a>
+                                    <a href="{{ url('/show-management-index?id='.$application->application->id) }}">Show</a>
                             </td>
 
-                            <div class="modal fade modelTitle" id="incomeAdd{{$application->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Chatt To The Other Persion</h5>
-                                            <button class="close" onclick="removeDivChiledelement({{$application->id}})" type="button" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row ">
-                                                <div class="col-6 border border-dark" id="setMessage{{$application->id}}">
-                                                    <h5>Teacher</h5>
-                                                </div>
-                                                <div class="col-6 border border-dark" id="setMessageForTeacher{{$application->id}}">
-                                                    <h5>Student</h5>
-                                                    <p></p>
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="modalTitle{{$application->id}}">Message:</label>
-                                                <input required type="text" id="textMessage{{$application->id}}" class="form-control " name="text" placeholder='Enter Text...'>
-
-                                            </div>
-                                            <button
-                                                    onclick="sendMessage({{$application->id}})"
-                                                    id="getTeacherId{{$application->id}}"
-                                                    data-user_id="{{$application->user_id}}"
-                                                    data-teacher_id="{{$application->teacher_id}}"
-                                                    class="btn btn-sm btn-primary">Send</button>
-
-                                        <div class="modal-footer">
-                                            <button class="btn btn-secondary" onclick="removeDivChiledelement({{$application->id}})" type="button" data-dismiss="modal">Cancel</button>
-                                            {{-- <button type="submit" class="btn btn-primary" >Save</button> --}}
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
                         </tr>
 
                         @endforeach
@@ -122,9 +56,7 @@
 
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-center">
-                    {{-- {!! $application->links() !!} --}}
-                </div>
+
             </div>
         </div>
     </div>
@@ -137,7 +69,7 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <h1 class="text-gray-600">Applicant Name: <span class=" font-italic font-weight-normal text-gray-700">{{ $application->name }}</span></h1>
+                    <h1 class="text-gray-600">Applicant Name: <span class=" font-italic font-weight-normal text-gray-700">{{ $singleApp->name }}</span></h1>
                 </div>
                 <div class="card-body">
                     {{-- <embed  src="{{ $application->file }}" style="width:1000px; height:800px;" frameborder="0"> --}}
@@ -194,7 +126,7 @@
         </div>
     </div>
 </div>
-</div>
+
 @endif
 @endsection
 @push('js')

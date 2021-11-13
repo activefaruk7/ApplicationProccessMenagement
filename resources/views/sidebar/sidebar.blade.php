@@ -22,6 +22,7 @@
             <hr class="sidebar-divider">
 
             @cannot('is-teacher', auth()->user())
+            @cannot('is-management', auth()->user())
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item {{ request()->routeIs('userapplication.*') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#applicationCollapse"
@@ -38,12 +39,25 @@
                 </div>
             </li>
             @endcan
+            @endcan
             @can('is-teacher', auth()->user())
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item {{ request()->routeIs('check-application-index') ? 'active' : '' }}">
                 <a class="nav-link" href="{{route('check-application-index')}}">
                     <span>Applicatoins</span></a>
+                </a>
+
+            </li>
+
+
+            @endcan
+            @can('is-management', auth()->user())
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item {{ request()->routeIs('management.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{route('management.index')}}">
+                    <span>Applicatoin</span></a>
                 </a>
 
             </li>
