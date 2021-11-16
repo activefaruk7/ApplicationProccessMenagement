@@ -22,7 +22,7 @@
                             <div>{{$application->date}}</div>
                         </div>
                         <div>
-                           <h2>{{$application->teacher}},</h2>
+                           <h2>{{$application->teacher ? $application->teacher->name : ''}}</h2>
                         </div>
                         <div>
                            <h3>{{$application->subject}}</h3>

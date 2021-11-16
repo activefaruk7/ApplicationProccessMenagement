@@ -75,13 +75,13 @@
                             </td>
 
                             <td>
-
+                                <a href="{{url("/downloadPDF?id=". $application->id)}}">PDF</a>
                                 <a href="#" id="setMessageId{{ $application->id }}"  onclick="getMessage({{ $application->id}})" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#incomeAdd{{$application->id}}">Send A Message</a>
                                 @if ($application->status == 3)
                                 <a type="button" style="color:#922B21;" onclick="deleteIncame({{ $application->id }})">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
-                                <a href="{{url("/downloadPDF?id=". $application->id)}}">PDF</a>
+
                                 <form id="delete-form-{{ $application->id }}" action="{{route('userapplication.destroy',$application->id)}}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
@@ -117,7 +117,12 @@
                                                     <input required type="text" id="textMessage{{$application->id}}" class="form-control " name="text" placeholder='Enter Text...'>
 
                                                 </div>
-                                                <button onclick="sendMessage({{$application->id}})" id="getTeacherId{{$application->id}}" data-id="{{$application->teacher_id}}" class="btn btn-sm btn-primary">Send</button>
+                                                <button
+                                                onclick="sendMessage({{$application->id}})"
+                                                id="getTeacherId{{$application->id}}"
+                                                data-user_id="{{$application->user_id}}"
+                                                data-teacher_id="{{$application->teacher_id}}"
+                                                class="btn btn-sm btn-primary">Send</button>
 
                                             <div class="modal-footer">
                                                 <button class="btn btn-secondary" onclick="removeDivChiledelement({{$application->id}})" type="button" data-dismiss="modal">Cancel</button>
@@ -154,13 +159,16 @@
         $("#setMessage"+id).children('p').remove();
     }
     function getMessage (id) {
-        var teacher_id =$("#getTeacherId"+id).data("id");
+        var teacher_id =$("#getTeacherId"+id).data("teacher_id");
+        var user_id =$("#getTeacherId"+id).data("user_id");
         $.ajax({
             type: "GET",
             url: "/get-message/"+teacher_id,
             success: function(data){
+                // console.log(data);
                 var teachersMessages = data.filter(item => item.user_id == teacher_id)
-                var studentMessages = data.filter(item => item.user_id == id)
+                var studentMessages = data.filter(item => item.user_id == user_id)
+
                 teachersMessages.map((item) => $("#setMessageForTeacher"+id).append("<p>"+ item.text +"</p>"))
                 studentMessages.map((item) => $("#setMessage"+id).append("<p>"+ item.text +"</p>"))
         }
@@ -168,13 +176,13 @@
     }
     function sendMessage(id) {
         var text = $("#textMessage"+id).val();
-        var teacher_id =$("#getTeacherId"+id).data("id");
+        var teacher_id =$("#getTeacherId"+id).data("teacher_id");
         var formData = new FormData();
         formData.append("text", text);
         formData.append("teacher_id", teacher_id);
         $.ajax({
             type: "POST",
-            url: '/set-message',
+            url: '/set-message-of-student',
             data: formData,
             processData: false,
             contentType: false,

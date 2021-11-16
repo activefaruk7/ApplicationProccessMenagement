@@ -71,7 +71,8 @@ class HomeController extends Controller
             'user' =>$user
         ];
         Code::create(['user_id'=> $user->id, 'code' => $details['code']]);
-        Mail::to('safiul7303@gmail.com')->send(new CodeSendMail($details));
+        Mail::to($user->email)->send(new CodeSendMail($details));
+
         $user_id = $user->id;
         return view('auth.code-to-login', compact('user_id'));
     }
