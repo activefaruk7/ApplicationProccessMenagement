@@ -65,7 +65,6 @@ class Profilecontroller extends Controller
 
             $fullPath = '/storage/'.$path;
 
-
             $user->avater = $fullPath;
             $user->save();
 
