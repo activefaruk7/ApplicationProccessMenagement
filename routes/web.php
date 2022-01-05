@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/send-to-mangement', [ApplicationCheckController::class, 'sendToMangement'])->name('sendToMang');
     //message section here
     Route::post('/set-message',[MessageController::class, 'sendMessage'])->name('set-message');
+    Route::post('/set-message-of-student',[MessageController::class, 'sendMessageFromStudent'])->name('set-message-of-student');
     Route::get('/get-message/{teacher_id}',[MessageController::class, 'getMessage'])->name('set-message');
     Route::get('/get-message-studentId/{student_id}',[MessageController::class, 'getMessageWithStudentId'])->name('get-message-student-message');
      // profile panel here...

@@ -13,12 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\Role::generateRole();
         \App\Models\User::create([
             'name' => 'Head',
-            'email' => 'headteacher@mail.com',
+            'email' => 'teacher@mail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('head'),
-            'role_id' => '3',
+            'password' => bcrypt('teacher'),
+            'role_id' => '2',
             'remember_token' => Str::random(10),
         ]);
     }

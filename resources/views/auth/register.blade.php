@@ -6,7 +6,12 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
-
+                {{-- show session  error message--}}
+                @if(session()->has('error'))
+                <div class="alert alert-danger">
+                    {{ session()->get('error') }}
+                </div>
+                @endif
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
@@ -57,8 +62,8 @@
                             <div class="col-md-6">
 
                                 <select class="form-control @error('role') is-invalid @enderror" name="role" name="role" id="role">
-                                    <option value="student">Student</option>
-                                    <option value="teacher">Teacher</option>
+                                    <option value="1">Student</option>
+                                    <option value="2">Teacher</option>
                                 </select>
                                 @error('role')
                                     <span class="invalid-feedback" role="alert">

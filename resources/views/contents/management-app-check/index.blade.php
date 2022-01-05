@@ -114,12 +114,12 @@
                             </tbody>
                         </table>
 
-                        @if ($singleApp->status != 1)
+                        {{-- @if ($singleApp->status != 1)
                             <div class="w-full d-flex justify-content-center align-content-center">
                                 <a class="btn btn-primary mr-2" href="{{ route('update.status.accept', $singleApp->id) }}">Accept</a>
                                 <a class="btn btn-danger" href="{{ route('update.status.reject', $singleApp->id) }}">{{ $singleApp->status == 0 ? "Rejected" : "Reject" }}</a>
                             </div>
-                        @endif
+                        @endif --}}
 
                 </div>
             </div>

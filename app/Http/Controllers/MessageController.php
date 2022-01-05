@@ -38,6 +38,7 @@ class MessageController extends Controller
         return response()->json($datas, 200);
     }
     public function sendMessage (Request $request) {
+
         $this->validate($request, [
             'text' => 'required',
             'student_id' =>'required',
@@ -46,6 +47,27 @@ class MessageController extends Controller
         $con = Convarsetion::firstOrCreate([
             'user_id' => $request->student_id,
             'teacher_id' => auth()->id()
+        ]);
+
+        Message::create([
+            'convarsation_id' => $con->id,
+            'text' => $request->text,
+            'user_id' => auth()->id(),
+        ]);
+
+        return response()->json(['success' => 'success'], 200);
+
+    }
+    public function sendMessageFromStudent (Request $request) {
+        
+        $this->validate($request, [
+            'text' => 'required',
+            'teacher_id' =>'required',
+        ]);
+
+        $con = Convarsetion::firstOrCreate([
+            'user_id' => auth()->id(),
+            'teacher_id' => $request->teacher_id
         ]);
 
         Message::create([

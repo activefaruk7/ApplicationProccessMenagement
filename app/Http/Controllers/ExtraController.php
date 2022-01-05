@@ -15,7 +15,7 @@ class ExtraController extends Controller
     public function downloadPDF(Request $request) {
         // retreive all records from db
         $data = StudentApplication::with('teacher')->find($request->id);
-
+        // dd($data);
         // share data to view
         view()->share('application',$data);
         $pdf = PDF::loadView('contents.make-pdf.pdf-template', $data)->setOptions(['defaultFont' => 'sans-serif']);

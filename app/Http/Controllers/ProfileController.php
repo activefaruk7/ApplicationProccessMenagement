@@ -58,15 +58,13 @@ class Profilecontroller extends Controller
                 File::delete(public_path($user->avater));
             }
 
-            $imagePath = $request->file('image');
-            $imageName = rand(6999,500000).$imagePath->getClientOriginalName();
+            $files = $request->file('image');
+            $imagename = rand(45464, 676767).time().'_'.uniqid().'.'.$files->getClientOriginalExtension();
+            $imagepublicpath = public_path('storage/files');
+            $files->move($imagepublicpath, $imagename);
+            $file_path = '/storage/files/'.$imagename;
 
-            $path = $request->file('image')->storeAs('uploads', $imageName, 'public');
-
-            $fullPath = '/storage/'.$path;
-
-
-            $user->avater = $fullPath;
+            $user->avater = $file_path;
             $user->save();
 
         }

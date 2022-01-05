@@ -6,7 +6,7 @@ use App\Models\Message;
 use App\Models\StudentApplication;
 use App\Models\User;
 use Illuminate\Http\Request;
-use File;
+use Illuminate\Support\Facades\File;
 
 class UserApplicationController extends Controller
 {
@@ -43,12 +43,12 @@ class UserApplicationController extends Controller
         }
 
         if ($request->hasFile('file')) {
-            $name = time().'_'.$request->file->getClientOriginalName();
-            $filePath = $request->file('file')->storeAs('uploads', $name, 'public');
-
-
-            $app->file = '/storage/' . $filePath;
-
+            $file = $request->file('file');
+            $imagename = rand(45464, 676767).time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $imagepublicpath = public_path('storage/files');
+            $file->move($imagepublicpath, $imagename);
+            $file_path = '/storage/files/'.$imagename;
+            $app->file = $file_path;
             $app->update();
         }
 
@@ -86,12 +86,15 @@ class UserApplicationController extends Controller
         $app->update($request->all());
 
         if ($request->hasFile('file')) {
-            if (File::exists($app->file)) {
-                File::delete($app->file);
+            if (File::exists(public_path($app->file))) {
+                File::delete(public_path($app->file));
             }
-            $name = time().'_'.$request->file->getClientOriginalName();
-            $filePath = $request->file('file')->storeAs('uploads', $name, 'public');
-            $app->file = '/storage/' . $filePath;
+            $file = $request->file('file');
+            $imagename = rand(45464, 676767).time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $imagepublicpath = public_path('storage/files');
+            $file->move($imagepublicpath, $imagename);
+            $file_path = '/storage/files/'.$imagename;
+            $app->file = $file_path;
 
             $app->update();
         }
@@ -103,7 +106,12 @@ class UserApplicationController extends Controller
 
     public function destroy($id)
     {
-        StudentApplication::find($id)->delete();
+        $app = StudentApplication::find($id);
+        if (File::exists(public_path($app->file))) {
+            File::delete(public_path($app->file));
+        }
+        $app->app_role()->delete();
+        $app->delete();
         return redirect()
                ->back()
                ->with('success','Successfully Deleted!');

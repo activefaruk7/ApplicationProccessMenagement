@@ -20,7 +20,7 @@ class ApplicationCheckController extends Controller
         }
 
         $applications = StudentApplication::whereIn('status', [1,2,0])->where('teacher_id', auth()->id())->get();
-        $managements = User::whereIn('id',[3,4,5,6,7])->get();
+        $managements = User::whereIn('role_id',[3,4,5,6,7])->get();
         return view('contents.application-check.index',
                     ['applications'=> $applications,
                      'singleApp' => $singleApp,
@@ -38,7 +38,7 @@ class ApplicationCheckController extends Controller
     public function updateStatusAccept ($id) {
         $app = StudentApplication::where('id', $id)->first();
                           $app->update(['status' => 1]);
-        Mail::to('safiul7303@gmail.com')->send(new SendAppMail($app));
+        Mail::to($app->user->email)->send(new SendAppMail($app));
         return redirect()
                ->back()
                ->with('success', 'Application Accepted!');
