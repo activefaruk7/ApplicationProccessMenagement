@@ -12,6 +12,12 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ADMIN = 5;
+    const STUDENT = 1;
+    const TEACHER = 2;
+    const HEAD = 3;
+    const DEAN = 4;
+    const ACAD = 6;
     /**
      * The attributes that are mass assignable.
      *
@@ -48,8 +54,13 @@ class User extends Authenticatable
     public function role () {
         return $this->belongsTo(Role::class);
     }
+
     public function convarsetions () {
         return $this->hasMany(Convarsetion::class);
+    }
+
+    public function student_applications () {
+        return $this->hasMany(StudentApplication::class, 'user_id', 'id');
     }
 
     public function isTeacher() {
@@ -60,19 +71,21 @@ class User extends Authenticatable
     }
 
     public function isDin() {
-        return $this->role_id == 3;
-    }
-    public function isHead() {
         return $this->role_id == 4;
     }
-    public function isOther3() {
+
+    public function isHead() {
+        return $this->role_id == 3;
+    }
+
+    public function isAdmin() {
         return $this->role_id == 5;
     }
-    public function isOther4() {
-        return $this->role_id == 6;
-    }
-    public function isOther5() {
-        return $this->role_id == 7;
+
+    public function isManagenent() {
+        if ($this->role_id == 3 || $this->role_id == 4 || $this->role_id == 6) {
+            return true;
+        }
     }
 
     public function app_role() {

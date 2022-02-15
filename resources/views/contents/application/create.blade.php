@@ -7,7 +7,28 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Apply') }}</div>
-
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <div class="alert-icon contrast-alert">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <div class="alert-message">
+                            <span><strong>Success!</strong> {{session('success')}} </span>
+                        </div>
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-error alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <div class="alert-icon contrast-alert">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <div class="alert-message">
+                            <span><strong>Error!</strong> {{session('error')}} </span>
+                        </div>
+                    </div>
+                @endif
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" action="{{!empty($application) ? route('userapplication.update', $application->id) : route('userapplication.store')}}">
                         @csrf
@@ -17,14 +38,18 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
                             <div class="col-md-6">
-                                <input  type="text" class="form-control" name="name" value="{{ !empty($application) ? $application->name: '' }}" required autocomplete="name" autofocus>
+                                <input  type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ !empty($application) ? $application->name: '' }}" required autocomplete="name" autofocus>
                                 <input type="hidden" name="user_id" value="{{auth()->id()}}"/>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
                             <div class="col-md-6">
                                 <input type="email" class="form-control" name="email" value="{{ !empty($application) ? $application->email: '' }}" required autocomplete="email">
                             </div>
@@ -74,7 +99,7 @@
                         <div class="form-group row">
                             <label for="file" class="col-md-4 col-form-label text-md-right">{{ __('File') }}</label>
                             <div class="col-md-6 d-flex justify-content-between">
-                               <input type="file" class="form-control" file="true"  name="file">
+                               <input type="file" class="form-control @error('file') is-invalid @enderror" file="true"  name="file">
                                @if (!empty($application) && $application->file)
                                <a href="{{ route('doc.open', $application->id) }}">Open</a>
                                @endif
@@ -92,6 +117,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Select A Teacher') }}</label>
                             <div class="col-md-6">
                                <select name="teacher_id" class="form-control"  id="select">
+                                   <option selected="selected" disabled>Select</option>
                                     @foreach ($teachers as $item)
                                         @if (!empty($application) && $application->teacher_id == $item->id)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
@@ -106,7 +132,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Select A Management') }}</label>
                             <div class="col-md-6">
-                                <select class="js-example-basic-multiple form-control"  name="management_id[]" multiple="multiple">
+                                <select class="js-example-basic-multiple form-control"  name="management_ids[]" multiple="multiple">
                                     @foreach ($managements as $item)
                                         @if (!empty($application) && $application->teacher_id == $item->id)
                                             <option value="{{$item->id}}">{{$item->name}}</option>

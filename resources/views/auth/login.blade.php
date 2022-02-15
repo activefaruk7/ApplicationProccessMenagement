@@ -3,9 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 mt-5">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div style="background: #125CC7;" class="card-header">
+                    <h3  class="text-center text-white text-bold">{{ __('NUB Application Processing System') }}</h3>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -56,7 +58,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" style="background: #125CC7;" class="btn text-white">
                                     {{ __('Login') }}
                                 </button>
 

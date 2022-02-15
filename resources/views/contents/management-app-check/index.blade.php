@@ -29,11 +29,9 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-
                             <th>Applicant Name</th>
                             <th>Applicant Email</th>
                             <th>Action</th>
-
                         </tr>
                     </thead>
 

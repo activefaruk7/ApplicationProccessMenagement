@@ -33,7 +33,7 @@ class ApplicationCheckController extends Controller
                           ->update(['status' => 2]);
         return redirect()
                ->back()
-               ->with('success', 'Application Sended!');
+               ->with('success', 'Application has been Sent!');
     }
     public function updateStatusAccept ($id) {
         $app = StudentApplication::where('id', $id)->first();

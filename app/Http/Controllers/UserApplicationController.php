@@ -6,6 +6,7 @@ use App\Models\Message;
 use App\Models\StudentApplication;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class UserApplicationController extends Controller
@@ -31,25 +32,32 @@ class UserApplicationController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'file' => 'mimes:pdf,xlx,csv|max:2048',
         ]);
-        $app = StudentApplication::create($request->all());
-        foreach($request->management_id as $id) {
-            $app->app_role()->create([
-                'user_id' => $id,
-                'sender_id' => auth()->id()
-            ]);
-        }
+        try {
+            DB::beginTransaction();
+            $app = StudentApplication::create($request->all());
+            foreach($request->management_id as $id) {
+                $app->app_role()->create([
+                    'user_id' => $id,
+                    'sender_id' => auth()->id()
+                ]);
+            }
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $imagename = rand(45464, 676767).time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
-            $imagepublicpath = public_path('storage/files');
-            $file->move($imagepublicpath, $imagename);
-            $file_path = '/storage/files/'.$imagename;
-            $app->file = $file_path;
-            $app->update();
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $imagename = $file->hashName();
+                $imagepublicpath = public_path('storage/files');
+                $file->move($imagepublicpath, $imagename);
+                $file_path = '/storage/files/'.$imagename;
+                $app->file = $file_path;
+                $app->update();
+            }
+            DB::commit();
+        } catch (\Exception $ex) {
+            return redirect()->back()->with('error', $ex->getMessage());
         }
 
        return redirect()
@@ -90,7 +98,7 @@ class UserApplicationController extends Controller
                 File::delete(public_path($app->file));
             }
             $file = $request->file('file');
-            $imagename = rand(45464, 676767).time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $imagename = $file->hashName();
             $imagepublicpath = public_path('storage/files');
             $file->move($imagepublicpath, $imagename);
             $file_path = '/storage/files/'.$imagename;

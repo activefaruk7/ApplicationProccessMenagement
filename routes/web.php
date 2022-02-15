@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Profilecontroller;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserApplicationController;
 
 
@@ -28,8 +29,8 @@ Route::middleware(['auth'])->group(function () {
     //management label here...
     Route::post('/send-to-mangement', [ApplicationCheckController::class, 'sendToMangement'])->name('sendToMang');
     //message section here
-    Route::post('/set-message',[MessageController::class, 'sendMessage'])->name('set-message');
-    Route::post('/set-message-of-student',[MessageController::class, 'sendMessageFromStudent'])->name('set-message-of-student');
+    Route::post('/set-message',[MessageController::class, 'sendMessage'])->name('set-message-hello');
+    Route::post('/set-message-of-student',[MessageController::class, 'sendMessageFromStudent'])->name('get-message');
     Route::get('/get-message/{teacher_id}',[MessageController::class, 'getMessage'])->name('set-message');
     Route::get('/get-message-studentId/{student_id}',[MessageController::class, 'getMessageWithStudentId'])->name('get-message-student-message');
      // profile panel here...
@@ -41,6 +42,8 @@ Route::middleware(['auth'])->group(function () {
     //user application panal
     Route::resource('/userapplication', UserApplicationController::class);
     Route::get('/check-application-index', [ApplicationCheckController::class, 'index'])->name('check-application-index');
+    // report route here...
+    Route::get('/report', ReportController::class)->name('report');
 
     Route::get('/update-status-panding/{id}', [ApplicationCheckController::class, 'updateStatusPanding'])->name('update.status.panding');
     Route::get('/update-status-accept/{id}', [ApplicationCheckController::class, 'updateStatusAccept'])->name('update.status.accept');

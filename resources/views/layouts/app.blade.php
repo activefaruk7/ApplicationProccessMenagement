@@ -81,6 +81,5 @@
 
 
     @include('static.js')
-    @stack('js')
 </body>
 </html>

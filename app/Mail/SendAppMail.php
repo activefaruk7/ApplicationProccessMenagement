@@ -22,11 +22,7 @@ class SendAppMail extends Mailable
         $this->details = $details;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
+
     public function build()
     {
         return $this->subject('Hi, Your application Is Accepted!')
