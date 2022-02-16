@@ -38,8 +38,11 @@ class UserApplicationController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $app = StudentApplication::create($request->all());
-            foreach($request->management_id as $id) {
+            $app = StudentApplication::create($request->except('management_ids'));
+            if ($request->management_ids) {
+                $app->management_ids = json_encode( $request->management_ids);
+            }
+            foreach($request->management_ids as $id) {
                 $app->app_role()->create([
                     'user_id' => $id,
                     'sender_id' => auth()->id()

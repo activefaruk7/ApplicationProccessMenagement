@@ -35,4 +35,5 @@ class StudentApplication extends Model
         return $this->hasOne(AppRole::class, 'student_application_id', 'id');
     }
 
+
 }
