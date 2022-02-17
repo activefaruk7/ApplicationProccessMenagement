@@ -71,11 +71,11 @@ class User extends Authenticatable
     }
 
     public function isDin() {
-        return $this->role_id == 4;
+        return $this->role_id == 3;
     }
 
     public function isHead() {
-        return $this->role_id == 3;
+        return $this->role_id == 4;
     }
 
     public function isAdmin() {
@@ -100,7 +100,7 @@ class User extends Authenticatable
                 'email' => "head@mail.com",
                 'email_verified_at' => now(),
                 'password' => bcrypt('12345678'),
-                'role_id' => '3',
+                'role_id' => '4',
                 'remember_token' => Str::random(10),
             ],
             [
@@ -108,7 +108,7 @@ class User extends Authenticatable
                 'email' => "dean@mail.com",
                 'email_verified_at' => now(),
                 'password' => bcrypt('12345678'),
-                'role_id' => '4',
+                'role_id' => '3',
                 'remember_token' => Str::random(10),
             ],
             [
@@ -126,7 +126,15 @@ class User extends Authenticatable
                 'password' => bcrypt('12345678'),
                 'role_id' => '6',
                 'remember_token' => Str::random(10),
-            ]
+            ],
+            [
+                'name' => "superAdmin",
+                'email' => "superadmin@mail.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('12345678'),
+                'role_id' => '7',
+                'remember_token' => Str::random(10),
+            ],
 
         ];
 

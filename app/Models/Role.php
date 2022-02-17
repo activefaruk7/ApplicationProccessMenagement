@@ -17,8 +17,8 @@ class Role extends Model
             ['name' => 'din'],
             ['name' => 'head'],
             ['name' => 'admin'],
-            ['name' => 'superadmin'],
-            ['name' => 'superuser'],
+            ['name' => 'acad'],
+            ['name' => 'superAdmin'],
         ];
 
         foreach ($att as $key => $value) {
@@ -26,5 +26,5 @@ class Role extends Model
             $role->name = $value['name'];
             $role->save();
         }
-    }   
+    }
 }
