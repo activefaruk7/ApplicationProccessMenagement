@@ -24,7 +24,8 @@ class CodeSendMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Hi, Code is here!')
+        return $this->from($address = 'stroberi.ttmt@gmail.com', $name = 'NUB')
+                    ->subject('Hi, Code is here!')
                     ->view('auth.mail-code')->with(['details' =>$this->details]);
     }
 }

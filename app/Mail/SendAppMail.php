@@ -25,7 +25,8 @@ class SendAppMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Hi, Your application Is Accepted!')
+        return $this->from($address = 'stroberi.ttmt@gmail.com', $name = 'NUB')
+                    ->subject('Hi, Your application Is Accepted!')
         ->view('contents.application-check.show')->with(['application' =>$this->details]);
     }
 }

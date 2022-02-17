@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -90,6 +90,49 @@ class User extends Authenticatable
 
     public function app_role() {
         return $this->hasOne(AppRole::class, 'user_id', 'id');
+    }
+
+
+    public static function generateNewManagemnet() {
+        $users = [
+            [
+                'name' => "Head",
+                'email' => "head@mail.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('12345678'),
+                'role_id' => '3',
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => "Dean",
+                'email' => "dean@mail.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('12345678'),
+                'role_id' => '4',
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => "Admin",
+                'email' => "admin@mail.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('12345678'),
+                'role_id' => '5',
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => "Acad",
+                'email' => "acad@mail.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('12345678'),
+                'role_id' => '6',
+                'remember_token' => Str::random(10),
+            ]
+
+        ];
+
+        foreach($users as $user) {
+            self::create($user);
+        }
     }
 
 

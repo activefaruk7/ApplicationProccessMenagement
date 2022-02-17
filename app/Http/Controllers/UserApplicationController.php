@@ -26,7 +26,10 @@ class UserApplicationController extends Controller
     public function create()
     {  $teachers = User::where('role_id', 2)->get();
        $managements = User::whereNotIn('role_id', [1,2])->get();
-
+        if (!$managements) {
+            User::generateNewManagemnet();
+            $managements = User::whereNotIn('role_id', [1,2])->get();
+        }
        return view('contents.application.create', compact('teachers', 'managements'));
     }
 
