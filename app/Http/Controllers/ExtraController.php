@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use PDF;
 class ExtraController extends Controller
 {
@@ -24,5 +26,14 @@ class ExtraController extends Controller
         return $pdf->download('pdf_file.pdf');
       }
 
-
+      public function Truncate () {
+        Schema::disableForeignKeyConstraints();
+        DB::table('app_roles')->truncate();
+        DB::table('codes')->truncate();
+        DB::table('convarsetions')->truncate();
+        DB::table('messages')->truncate();
+        DB::table('student_applications')->truncate();
+        Schema::enableForeignKeyConstraints();
+        return redirect()->back()->with('success', 'Tables truncated successfully');
+    }
 }

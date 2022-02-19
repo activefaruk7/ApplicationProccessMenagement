@@ -51,6 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/doc-open/{id}', [ApplicationCheckController::class, 'docOpen'])->name('doc.open');
     Route::get('/pdf/{id}', [ExtraController::class, 'createPdf'])->name('make.pdf');
     Route::get('/downloadPDF',[ExtraController::class, 'downloadPDF']);
+    // trancate table
+    Route::get('/are-you-sure', [ExtraController::class, 'Truncate'])->name('trancate');
 });
-
-
