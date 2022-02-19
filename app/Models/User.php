@@ -84,7 +84,7 @@ class User extends Authenticatable
     }
 
     public function isManagenent() {
-        if ($this->role_id == 3 || $this->role_id == 4 || $this->role_id == 6) {
+        if ($this->role_id == 3 || $this->role_id == 4 || $this->role_id == 6 || $this->role_id == 8 || $this->role_id ==9) {
             return true;
         }
     }
@@ -134,6 +134,22 @@ class User extends Authenticatable
                 'email_verified_at' => now(),
                 'password' => bcrypt('12345678'),
                 'role_id' => '7',
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => "Regiseter",
+                'email' => "register@mail.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('12345678'),
+                'role_id' => '8',
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => "Vice Chancellor",
+                'email' => "vicechancellor@mail.com",
+                'email_verified_at' => now(),
+                'password' => bcrypt('12345678'),
+                'role_id' => '9',
                 'remember_token' => Str::random(10),
             ],
 

@@ -20,12 +20,12 @@ class ApplicationCheckController extends Controller
             $singleApp = StudentApplication::where('id', $app_id)->first();
         }
 
-        $applications = StudentApplication::whereIn('status', [1,2,0])->where('teacher_id', auth()->id())->get();
-        $managements = User::whereIn('role_id',[3,4,6])->get();
+        $applications = StudentApplication::whereIn('status', [1,2,0,8,9])->where('teacher_id', auth()->id())->get();
+        $managements = User::whereIn('role_id',[3,4,6,8,9])->get();
 
         if (count($managements) == 0) {
             User::generateNewManagemnet();
-            $managements = User::whereIn('role_id', [3,4,6])->get();
+            $managements = User::whereIn('role_id', [3,4,6,8,9])->get();
         }
         return view('contents.application-check.index',
                     ['applications'=> $applications,
