@@ -42,19 +42,21 @@ class ApplicationCheckController extends Controller
                ->with('success', 'Application has been Sent!');
     }
     public function updateStatusAccept ($id) {
+        // dd($id);
         try {
             DB::beginTransaction();
             $app = StudentApplication::where('id', $id)->first();
             $app->update(['status' => 1]);
             Mail::to($app->user->email)->send(new SendAppMail($app));
-            return redirect()
-            ->back()
-            ->with('success', 'Application Accepted!');
+
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollback();
             return redirect()->back()->with('error', $ex->getMessage());
         }
+        return redirect()
+        ->back()
+        ->with('success', 'Application Accepted!');
 
     }
     public function updateStatusReject ($id) {

@@ -14,6 +14,17 @@
             </div>
         </div>
     @endif
+    @if(session('error'))
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <div class="alert-icon contrast-alert">
+                <i class="fa fa-check"></i>
+            </div>
+            <div class="alert-message">
+                <span><strong>Error!</strong> {{session('error')}} </span>
+            </div>
+        </div>
+    @endif
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Applications</h1>
