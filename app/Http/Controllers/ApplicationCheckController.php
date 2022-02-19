@@ -7,6 +7,7 @@ use App\Models\AppRole;
 use App\Models\StudentApplication;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class ApplicationCheckController extends Controller
@@ -20,7 +21,12 @@ class ApplicationCheckController extends Controller
         }
 
         $applications = StudentApplication::whereIn('status', [1,2,0])->where('teacher_id', auth()->id())->get();
-        $managements = User::whereIn('role_id',[3,4,5,6,7])->get();
+        $managements = User::whereIn('role_id',[3,4,6])->get();
+
+        if (count($managements) == 0) {
+            User::generateNewManagemnet();
+            $managements = User::whereIn('role_id', [3,4,6])->get();
+        }
         return view('contents.application-check.index',
                     ['applications'=> $applications,
                      'singleApp' => $singleApp,
@@ -36,12 +42,20 @@ class ApplicationCheckController extends Controller
                ->with('success', 'Application has been Sent!');
     }
     public function updateStatusAccept ($id) {
-        $app = StudentApplication::where('id', $id)->first();
-                          $app->update(['status' => 1]);
-        Mail::to($app->user->email)->send(new SendAppMail($app));
-        return redirect()
-               ->back()
-               ->with('success', 'Application Accepted!');
+        try {
+            DB::beginTransaction();
+            $app = StudentApplication::where('id', $id)->first();
+            $app->update(['status' => 1]);
+            Mail::to($app->user->email)->send(new SendAppMail($app));
+            return redirect()
+            ->back()
+            ->with('success', 'Application Accepted!');
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+            return redirect()->back()->with('error', $ex->getMessage());
+        }
+
     }
     public function updateStatusReject ($id) {
         StudentApplication::where('id', $id)
@@ -74,4 +88,3 @@ class ApplicationCheckController extends Controller
 
     }
 }
-

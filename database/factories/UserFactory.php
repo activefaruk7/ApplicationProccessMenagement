@@ -23,8 +23,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => 'admin@mail.com',
+            'name' => 'hello',
+            'email' => 'hello@mail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
             'role_id' => '1',

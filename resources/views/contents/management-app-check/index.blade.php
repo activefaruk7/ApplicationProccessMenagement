@@ -40,11 +40,11 @@
                         @foreach ($apps as $key=>$application)
                         <tr>
 
-                            <td >{{$application->application->name}}</td>
-                            <td >{{$application->application->email}}</td>
+                            <td >{{$application->name}}</td>
+                            <td >{{$application->email}}</td>
 
                             <td >
-                                    <a href="{{ url('/show-management-index?id='.$application->application->id) }}">Show</a>
+                                    <a href="{{ url('/show-management-index?id='.$application->id) }}">Show</a>
                             </td>
 
                         </tr>

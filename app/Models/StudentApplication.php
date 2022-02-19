@@ -32,7 +32,7 @@ class StudentApplication extends Model
     }
 
     public function app_role () {
-        return $this->hasOne(AppRole::class, 'student_application_id', 'id');
+        return $this->hasMany(AppRole::class, 'student_application_id', 'id');
     }
 
 

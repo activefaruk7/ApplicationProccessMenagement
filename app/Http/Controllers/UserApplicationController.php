@@ -25,10 +25,10 @@ class UserApplicationController extends Controller
 
     public function create()
     {  $teachers = User::where('role_id', 2)->get();
-       $managements = User::whereNotIn('role_id', [1,2])->get();
-        if (!$managements) {
+       $managements = User::whereIn('role_id', [3,4,6])->get();
+        if (count($managements) == 0) {
             User::generateNewManagemnet();
-            $managements = User::whereNotIn('role_id', [1,2])->get();
+            $managements = User::whereIn('role_id', [3,4,6])->get();
         }
        return view('contents.application.create', compact('teachers', 'managements'));
     }
@@ -45,12 +45,15 @@ class UserApplicationController extends Controller
             if ($request->management_ids) {
                 $app->management_ids = json_encode( $request->management_ids);
             }
-            foreach($request->management_ids as $id) {
-                $app->app_role()->create([
-                    'user_id' => $id,
-                    'sender_id' => auth()->id()
-                ]);
+            if ($request->management_ids) {
+                foreach($request->management_ids as $id) {
+                    $app->app_role()->create([
+                        'user_id' => $id,
+                        'sender_id' => auth()->id()
+                    ]);
+                }
             }
+
 
             if ($request->hasFile('file')) {
                 $file = $request->file('file');

@@ -18,6 +18,7 @@ class User extends Authenticatable
     const HEAD = 3;
     const DEAN = 4;
     const ACAD = 6;
+    const MANAGEMENT = [3,4,5];
     /**
      * The attributes that are mass assignable.
      *

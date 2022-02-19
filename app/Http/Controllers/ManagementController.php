@@ -16,7 +16,10 @@ class ManagementController extends Controller
 
             $singleApp = StudentApplication::where('id', $app_id)->first();
         }
-        $apps = AppRole::where('user_id', auth()->id())->with('application')->get();
+        $apps = StudentApplication::whereHas('app_role', function ($q) {
+            $q->where('user_id', auth()->id());
+        })->get();
+        
         return view('contents.management-app-check.index', compact('apps','singleApp'));
     }
 }
