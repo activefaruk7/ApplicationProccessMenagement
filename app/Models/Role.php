@@ -19,6 +19,8 @@ class Role extends Model
             ['name' => 'admin'],
             ['name' => 'acad'],
             ['name' => 'superAdmin'],
+            ['name' => 'register'],
+            ['name' => 'viceChancellor'],
         ];
 
         foreach ($att as $key => $value) {
