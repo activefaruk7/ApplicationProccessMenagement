@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Convarsetion;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -65,16 +66,25 @@ class MessageController extends Controller
             'teacher_id' =>'required',
         ]);
 
-        $con = Convarsetion::firstOrCreate([
-            'user_id' => auth()->id(),
-            'teacher_id' => $request->teacher_id
-        ]);
+        DB::beginTransaction();
+        try {
+            $con = Convarsetion::firstOrCreate([
+                'user_id' => auth()->id(),
+                'teacher_id' => $request->teacher_id
+            ]);
 
-        Message::create([
-            'convarsation_id' => $con->id,
-            'text' => $request->text,
-            'user_id' => auth()->id(),
-        ]);
+            Message::create([
+                'convarsation_id' => $con->id,
+                'text' => $request->text,
+                'user_id' => auth()->id(),
+            ]);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+            return response()->json(['error' => $ex->getMessage()], 500);
+        }
+        
 
         return response()->json(['success' => 'success'], 200);
 
