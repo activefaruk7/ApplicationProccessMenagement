@@ -47,7 +47,7 @@ class ApplicationCheckController extends Controller
             DB::beginTransaction();
             $app = StudentApplication::where('id', $id)->first();
             $app->update(['status' => 1]);
-            Mail::to($app->user->email)->send(new SendAppMail($app));
+            // Mail::to($app->user->email)->send(new SendAppMail($app));
 
             DB::commit();
         } catch (\Exception $ex) {

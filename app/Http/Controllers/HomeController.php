@@ -98,19 +98,19 @@ class HomeController extends Controller
                 'password'=> bcrypt($request->password),
                 'role_id' => $request->role
             ]);
-            $details = [
-                'code' => rand(5666, 9555),
-                'user' =>$user
-            ];
-            Code::create(['user_id'=> $user->id, 'code' => $details['code']]);
-            Mail::to($user->email)->send(new CodeSendMail($details));
+            // $details = [
+            //     'code' => rand(5666, 9555),
+            //     'user' =>$user
+            // ];
+            // Code::create(['user_id'=> $user->id, 'code' => $details['code']]);
+            // Mail::to($user->email)->send(new CodeSendMail($details));
             $user_id = $user->id;
             DB::commit();
         } catch (\Exception $ex) {
             return redirect()->back()->with('error', $ex->getMessage());
         }
 
-        return view('auth.code-to-login', compact('user_id'));
+        return view('auth.login', compact('user_id'));
     }
 
     public function codeIndex() {
