@@ -64,4 +64,8 @@ Run the database seeder and you're done
     
 ***Admim Mail & Password*** :
     mail: admin@mail.com
-    password: admin
+    password: '12345678'
+
+    head@mail.com
+    dean@mail.com
+    acad@mail.com
