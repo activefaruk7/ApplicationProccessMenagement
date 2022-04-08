@@ -6,7 +6,7 @@
         <div class="col-md-8 mt-5">
             <div class="card">
                 <div style="background: #125CC7;" class="card-header">
-                    <h3  class="text-center text-white text-bold">{{ __('NUB Application Processing System') }}</h3>
+                    <h3  class="text-center text-white text-bold">{{ __('PUB Application Processing System') }}</h3>
                 </div>
 
                 <div class="card-body">
