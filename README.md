@@ -4,6 +4,8 @@
 
 Please check the official laravel installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/5.4/installation#installation)
 
+// go to C:drive >xampp>htdocs> 
+In this htdocs folder you can run this command using git bash
 Clone the repository
 
     git clone https://github.com/Anis5221/ApplicationProccessMenagement.git
