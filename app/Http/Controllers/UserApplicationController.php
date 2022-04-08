@@ -86,9 +86,11 @@ class UserApplicationController extends Controller
 
     public function edit($id)
     {
+        $managements = User::whereIn('role_id', [3,4,6,8,9])->get();
         return view('contents.application.create',
                ['application' => StudentApplication::where('id', $id)->first(),
                 'teachers' => User::where('role_id', 2)->get(),
+                'managements' => $managements
                ]
     );
     }
